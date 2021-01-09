@@ -1,5 +1,6 @@
 const express = require('express')
 const mysql = require('mysql')
+const redis = require('redis')
 
 const app = express()
 
@@ -19,6 +20,15 @@ connection.connect((err) => {
   }
   console.log('Connection established')
 })
+
+const client = redis.createClient()
+
+client.on('error', function (error) {
+  console.error(error)
+})
+
+client.set('key', 'value2', redis.print)
+client.get('key', redis.print)
 
 connection.end((err) => {})
 
